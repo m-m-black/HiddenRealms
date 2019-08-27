@@ -1,6 +1,6 @@
 /*
     Stores the score data for the sequence,
-    as a list of voices, where each voice is a row.
+    as a list of voices, where each voice contains a row of events.
  */
 
 import java.util.ArrayList;

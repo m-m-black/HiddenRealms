@@ -4,4 +4,20 @@
  */
 
 public class Transport {
+
+    private int currentStep;
+    private double tempo; // -- measured in BPM --
+
+    public Transport() {
+        currentStep = 0;
+        tempo = 120;
+    }
+
+    public void start() {}
+
+    public void stop() {}
+
+    public void setTempo(double tempo) {
+        this.tempo = tempo;
+    }
 }
