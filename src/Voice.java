@@ -3,11 +3,15 @@
     initialised with a specific event type, T.
  */
 
-public class Row<T> {
+public class Voice<T> {
 
     private T[] row;
 
-    public Row(int steps) {
+    public Voice(int steps) {
         row = (T[]) new Object[steps];
+    }
+
+    public T[] getRow() {
+        return row;
     }
 }

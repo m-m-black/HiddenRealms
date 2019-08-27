@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 public class Sequence {
 
-    private ArrayList<Row> rows; // -- List of rows in the sequence --
+    private ArrayList<Voice> voices; // -- List of rows in the sequence --
     private int steps; // -- Length of the sequence, in steps --
 
     public Sequence(int steps) {
         this.steps = steps;
-        rows = new ArrayList<>();
+        voices = new ArrayList<>();
     }
 
-    public void addRow(Row row) {
-        rows.add(row);
+    public void addVoice(Voice voice) {
+        voices.add(voice);
     }
 
     public int getSteps() {
