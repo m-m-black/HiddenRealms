@@ -11,14 +11,22 @@ public class Transport {
     private MIDIHandler handler;
 
     public Transport(MIDIHandler handler) {
+        this.handler = handler;
         currentStep = 0;
         tempo = 120;
-        this.handler = handler;
     }
 
-    public void start() {}
+    public void start() {
+        /*
+            Step through sequence and send events to handler
+         */
+    }
 
-    public void stop() {}
+    public void stop() {
+        /*
+            Stop stepping through sequence
+         */
+    }
 
     private void send(Event e) {
         handler.handle(e);
