@@ -10,6 +10,7 @@ public class ControlSystem {
     MIDIHandler handler = new MIDIHandler();
     Transport transport = new Transport(handler);
     LSystemTransport lSystemTransport;
+    Sequence sequence;
 
     /*
         Generative algorithm objects
@@ -35,6 +36,7 @@ public class ControlSystem {
 
                 switch (command.toUpperCase()) {
                     case "LSYS":
+                        lSystem = new LSystem();
                         lSystem.parseRules(tokens[1]);
                         lSystem.printRules();
                         break;
@@ -43,11 +45,11 @@ public class ControlSystem {
                         lSystem.printSystem();
                         break;
                     case "START":
-                        lSystemTransport = new LSystemTransport(lSystem.getSystem());
-                        lSystemTransport.start(120);
+                        transport.setSequence(lSystem.getSystemAsSequence());
+                        transport.start(120);
                         break;
                     case "STOP":
-                        lSystemTransport.stop();
+                        transport.stop();
                         break;
                     case "QUIT":
                         quit = true;

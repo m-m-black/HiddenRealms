@@ -33,6 +33,7 @@ public class Transport {
          */
         if (!running) {
             running = true;
+            handler.openMIDIDevice();
             if (executorService.isShutdown()) {
                 executorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -53,8 +54,12 @@ public class Transport {
         /*
             Stop stepping through sequence
          */
-        futureTask.cancel(true);
-        executorService.shutdown();
+        if (running) {
+            running = false;
+            futureTask.cancel(true);
+            executorService.shutdown();
+            handler.close();
+        }
     }
 
     private void send(Event e) {

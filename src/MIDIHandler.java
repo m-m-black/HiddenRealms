@@ -3,12 +3,47 @@
     and sends event messages to their specified MIDI device and channel
  */
 
+import javax.sound.midi.*;
+
 public class MIDIHandler {
 
-    public void handle(Event e) {
+    private MidiDevice device;
+    private Receiver receiver;
+    private ShortMessage message;
+
+    public void openMIDIDevice() {
+        MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
+        try {
+            device = MidiSystem.getMidiDevice(infos[3]);
+            device.open();
+            receiver = device.getReceiver();
+            message = new ShortMessage();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handle(Event event) {
         /*
             Extract MIDI device, channel and note info from event,
             then send the note to the device on the channel
          */
+        try {
+            message.setMessage(ShortMessage.NOTE_ON, 0, event.getMidiNote(), 100);
+            receiver.send(message, -1);
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+        try {
+            message.setMessage(ShortMessage.NOTE_OFF, 0, event.getMidiNote(), 0);
+            receiver.send(message, -1);
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        receiver.close();
+        device.close();
     }
 }

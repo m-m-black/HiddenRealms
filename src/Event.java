@@ -5,10 +5,24 @@
 
 public class Event {
 
+    private int midiNote;
+
+    public Event() {
+
+    }
+
+    public Event(int midiNote) {
+        this.midiNote = midiNote;
+    }
+
+    public int getMidiNote() {
+        return midiNote;
+    }
+
     /*
-        The event receives an external trigger,
-        and performs it's assigned action.
-     */
+            The event receives an external trigger,
+            and performs it's assigned action.
+         */
     public void trigger() {
 
     }

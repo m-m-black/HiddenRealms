@@ -2,12 +2,11 @@ import java.util.ArrayList;
 
 public class LSystem {
 
-    ArrayList<Integer>[] rules;
-    int axiom;
-    ArrayList<Integer> system;
+    private ArrayList<Integer>[] rules;
+    private ArrayList<Integer> system;
 
     public LSystem() {
-        axiom = 0; // -- Start with an axiom of 0 for now --
+        int axiom = 0; // -- Start with an axiom of 0 for now --
         system = new ArrayList<>();
         system.add(axiom);
     }
@@ -51,5 +50,41 @@ public class LSystem {
 
     public ArrayList<Integer> getSystem() {
         return system;
+    }
+
+    public Sequence getSystemAsSequence() {
+        /*
+            Convert system from list to Sequence and return it
+         */
+        Sequence sequence = new Sequence(system.size());
+        Voice voice = new Voice(system.size());
+        for (int i = 0; i < system.size(); i++) {
+            Event e = new RhythmEvent(mapElemToNote(system.get(i)));
+            voice.addEvent(e, i);
+        }
+        sequence.addVoice(voice);
+        return sequence;
+    }
+
+    private int mapElemToNote(int n) {
+        int returnValue = 0;
+        if (n == 0) {
+            returnValue = 36;
+        } else if (n == 1) {
+            returnValue = 37;
+        } else if (n == 2) {
+            returnValue = 38;
+        } else if (n == 3) {
+            returnValue = 39;
+        } else if (n == 4) {
+            returnValue = 40;
+        } else if (n == 5) {
+            returnValue = 41;
+        } else if (n == 6) {
+            returnValue = 42;
+        } else if (n == 7) {
+            returnValue = 43;
+        }
+        return returnValue;
     }
 }
