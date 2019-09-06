@@ -1,23 +1,23 @@
 /*
     A single row within the sequence,
-    initialised with a specific event type, T.
+    initialised with the parent Event type.
  */
 
-public class Voice<T> {
+public class Voice {
 
-    private T[] row;
+    private Event[] row;
 
     public Voice(int steps) {
-        row = (T[]) new Object[steps];
+        row = new Event[steps];
         initRow();
     }
 
     /*
-        Events, t, are added to the row externally by
+        Events, e, are added to the row externally by
         the generative algorithm used, at index i.
      */
-    public void addEvent(T t, int i) {
-        row[i] = t;
+    public void addEvent(Event e, int i) {
+        row[i] = e;
     }
 
     /*
@@ -31,7 +31,7 @@ public class Voice<T> {
         }
     }
 
-    public T[] getRow() {
+    public Event[] getRow() {
         return row;
     }
 }

@@ -69,12 +69,12 @@ public class Transport {
         this.sequence = sequence;
     }
 
-    private void outputNotes(int step) {
+    private void outputNotes(int currentStep) {
         /*
             Send events to MIDIHandler
          */
         for (Voice v: sequence.getVoices()) {
-            handler.handle((Event) v.getRow()[step]);
+            send(v.getRow()[currentStep]);
         }
     }
 
