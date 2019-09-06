@@ -22,4 +22,8 @@ public class Sequence {
     public int getSteps() {
         return steps;
     }
+
+    public ArrayList<Voice> getVoices() {
+        return voices;
+    }
 }

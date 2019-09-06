@@ -48,4 +48,8 @@ public class LSystem {
         }
         system = next;
     }
+
+    public ArrayList<Integer> getSystem() {
+        return system;
+    }
 }

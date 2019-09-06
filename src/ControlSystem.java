@@ -9,6 +9,7 @@ public class ControlSystem {
      */
     MIDIHandler handler = new MIDIHandler();
     Transport transport = new Transport(handler);
+    LSystemTransport lSystemTransport;
 
     /*
         Generative algorithm objects
@@ -40,6 +41,13 @@ public class ControlSystem {
                     case "GEN":
                         lSystem.generate();
                         lSystem.printSystem();
+                        break;
+                    case "START":
+                        lSystemTransport = new LSystemTransport(lSystem.getSystem());
+                        lSystemTransport.start(120);
+                        break;
+                    case "STOP":
+                        lSystemTransport.stop();
                         break;
                     case "QUIT":
                         quit = true;
