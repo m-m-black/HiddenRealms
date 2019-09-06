@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class LSystem {
 
-    String[] rules;
+    ArrayList<Integer>[] rules;
     int axiom;
     ArrayList<Integer> system;
 
@@ -13,12 +13,22 @@ public class LSystem {
     }
 
     public void parseRules(String ruleString) {
-        rules = ruleString.split("/");
+        String[] tokens = ruleString.split("/");
+        rules = new ArrayList[tokens.length];
+        for (int i = 0; i < rules.length; i++) {
+            rules[i] = new ArrayList<>();
+            for (int y = 0; y < tokens[i].length(); y++) {
+                rules[i].add(Integer.parseInt(tokens[i].substring(y, y+1)));
+            }
+        }
     }
 
     public void printRules() {
-        for (String s: rules) {
-            System.out.println(s);
+        for (ArrayList<Integer> a: rules) {
+            for (int i: a) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
         }
     }
 
@@ -31,11 +41,9 @@ public class LSystem {
 
     public void generate() {
         ArrayList<Integer> next = new ArrayList<>();
-        for (int i = 0; i < system.size(); i++) {
-            int elem = system.get(i);
-            String rule = rules[elem];
-            for (int y = 0; y < rule.length(); y++) {
-                next.add(Integer.parseInt(rule.substring(y, y+1)));
+        for (int i: system) {
+            for (int e: rules[i]) {
+                next.add(e);
             }
         }
         system = next;
