@@ -51,6 +51,8 @@ public class ControlSystem {
                     case "STOP":
                         transport.stop();
                         break;
+                    case "NUMS":
+                        Utility.nSumTo1(7);
                     case "QUIT":
                         quit = true;
                         break;
