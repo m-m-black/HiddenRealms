@@ -53,6 +53,9 @@ public class ControlSystem {
                         break;
                     case "NUMS":
                         Utility.nSumTo1(7);
+                    case "MKOV":
+                        MarkovMatrix markovMatrix = new MarkovMatrix();
+                        markovMatrix.initMatrix();
                     case "QUIT":
                         quit = true;
                         break;
