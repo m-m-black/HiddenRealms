@@ -54,8 +54,9 @@ public class MarkovMatrix {
             }
             matrix.put(d, list);
         }
+    }
 
-        // Print matrix
+    public void printMatrix() {
         for (Map.Entry<Degree, List<Tuple>> entry: matrix.entrySet()) {
             System.out.println(entry.getKey());
             for (Tuple t: entry.getValue()) {
@@ -72,7 +73,7 @@ public class MarkovMatrix {
         double r = random.nextDouble();
         List<Tuple> list = matrix.get(currentNote);
         for (Tuple t: list) {
-            if (r < t.getP()) {
+            if (r <= t.getP()) {
                 currentNote = t.getDegree();
                 break;
             }

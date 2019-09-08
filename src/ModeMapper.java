@@ -2,10 +2,10 @@ import java.util.HashMap;
 
 public class ModeMapper {
 
-    private HashMap<Degree, Integer> map;
+    private static HashMap<Degree, Integer> map;
     private Mode mode;
 
-    public HashMap<Degree, Integer> getMap(Mode mode) {
+    public static HashMap<Degree, Integer> getMap(Mode mode) {
         map = null;
         switch (mode) {
             case IONIAN:
@@ -35,7 +35,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getIonian() {
+    private static HashMap<Degree, Integer> getIonian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 62);
@@ -47,7 +47,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getDorian() {
+    private static HashMap<Degree, Integer> getDorian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 62);
@@ -59,7 +59,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getPhrygian() {
+    private static HashMap<Degree, Integer> getPhrygian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 61);
@@ -71,7 +71,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getLydian() {
+    private static HashMap<Degree, Integer> getLydian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 62);
@@ -83,7 +83,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getMixolydian() {
+    private static HashMap<Degree, Integer> getMixolydian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 62);
@@ -95,7 +95,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getAeolian() {
+    private static HashMap<Degree, Integer> getAeolian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 62);
@@ -107,7 +107,7 @@ public class ModeMapper {
         return map;
     }
 
-    private HashMap<Degree, Integer> getLocrian() {
+    private static HashMap<Degree, Integer> getLocrian() {
         map = new HashMap<>();
         map.put(Degree.I, 60);
         map.put(Degree.II, 61);

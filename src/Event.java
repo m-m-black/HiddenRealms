@@ -5,7 +5,7 @@
 
 public class Event {
 
-    private int midiNote;
+    protected int midiNote;
 
     public Event() {
 
@@ -15,15 +15,11 @@ public class Event {
         this.midiNote = midiNote;
     }
 
-    public int getMidiNote() {
-        return midiNote;
-    }
-
     /*
             The event receives an external trigger,
             and performs it's assigned action.
          */
-    public void trigger() {
-
+    public int trigger() {
+        return midiNote;
     }
 }

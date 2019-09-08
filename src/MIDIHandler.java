@@ -28,14 +28,15 @@ public class MIDIHandler {
             Extract MIDI device, channel and note info from event,
             then send the note to the device on the channel
          */
+        int midiNote = event.trigger();
         try {
-            message.setMessage(ShortMessage.NOTE_ON, 0, event.getMidiNote(), 100);
+            message.setMessage(ShortMessage.NOTE_ON, 0, midiNote, 100);
             receiver.send(message, -1);
         } catch (InvalidMidiDataException e) {
             e.printStackTrace();
         }
         try {
-            message.setMessage(ShortMessage.NOTE_OFF, 0, event.getMidiNote(), 0);
+            message.setMessage(ShortMessage.NOTE_OFF, 0, midiNote, 0);
             receiver.send(message, -1);
         } catch (InvalidMidiDataException e) {
             e.printStackTrace();
