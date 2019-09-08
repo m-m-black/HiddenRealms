@@ -16,6 +16,7 @@ public class ControlSystem {
         Generative algorithm objects
      */
     LSystem lSystem = new LSystem();
+    MarkovMatrix markovMatrix = new MarkovMatrix();
 
     /*
         User input variables
@@ -53,9 +54,13 @@ public class ControlSystem {
                         break;
                     case "NUMS":
                         Utility.nSumTo1(7);
+                        break;
                     case "MKOV":
-                        MarkovMatrix markovMatrix = new MarkovMatrix();
                         markovMatrix.initMatrix();
+                        break;
+                    case "NEXT":
+                        System.out.println(markovMatrix.getNextNote());
+                        break;
                     case "QUIT":
                         quit = true;
                         break;

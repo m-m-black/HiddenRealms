@@ -4,13 +4,13 @@ public class MarkovMatrix {
 
     private HashMap<Degree, List<Tuple>> matrix;
     private Degree currentNote;
+    Random random = new Random();
 
     /*
         Randomly generate transition probability values and builds matrix
      */
     public void initMatrix() {
         matrix = new HashMap<>();
-        Random random = new Random();
 
         // List of degrees will be used as keys in the matrix
         List<Degree> degrees = new ArrayList<>();
@@ -24,6 +24,8 @@ public class MarkovMatrix {
 
         for (Degree d: degrees) {
             List<Tuple> list = new ArrayList<>();
+            double sum = 0.0;
+
             // Generate n random numbers (say n = 7)
             double[] nums = Utility.nSumTo1(7);
             // Add each number > 0 to PQ
@@ -41,12 +43,14 @@ public class MarkovMatrix {
                 degreeQueue.add(t);
 
             }
-            // While first PQ still has elements, pair numbers with degrees
-            // by creating tuples
-            // Add tuples to list for each degree
+            // While first PQ still has elements, pair numbers with degrees by creating tuples
             while (!numQueue.isEmpty()) {
-                Tuple t = new Tuple(numQueue.poll(), degreeQueue.poll().getDegree());
+                // Add tuples to list for each degree
+                double prob = numQueue.poll();
+                // Probability value is value + sum of previous values in the list
+                Tuple t = new Tuple((prob + sum), degreeQueue.poll().getDegree());
                 list.add(t);
+                sum += prob;
             }
             matrix.put(d, list);
         }
@@ -62,12 +66,17 @@ public class MarkovMatrix {
     }
 
     public Degree getNextNote() {
-        /*
-            Generate next note using probability
-         */
-        /*
-            Set currentNote to the new note that was generated
-         */
-        return null;
+        if (currentNote == null) {
+            currentNote = Degree.I;
+        }
+        double r = random.nextDouble();
+        List<Tuple> list = matrix.get(currentNote);
+        for (Tuple t: list) {
+            if (r < t.getP()) {
+                currentNote = t.getDegree();
+                break;
+            }
+        }
+        return currentNote;
     }
 }
