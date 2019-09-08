@@ -68,6 +68,20 @@ public class ControlSystem {
                     case "NEXT":
                         System.out.println(markovMatrix.getNextNote());
                         break;
+                    case "EUC":
+                        int notes = Integer.parseInt(tokens[1]);
+                        int steps = Integer.parseInt(tokens[2]);
+                        int rotation = 0;
+                        if (tokens.length == 4) {
+                            rotation = Integer.parseInt(tokens[3]);
+                        }
+                        EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
+                        int[] rhythm = euclideanRhythm.generate(steps, notes, rotation);
+                        for (int i: rhythm) {
+                            System.out.print(i + " ");
+                        }
+                        System.out.println();
+                        break;
                     case "QUIT":
                         quit = true;
                         break;
