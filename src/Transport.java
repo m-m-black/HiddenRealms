@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Transport {
 
-    private int currentStep;
     private Sequence sequence;
     private double tempo; // -- measured in BPM --
     private MIDIHandler handler;
@@ -21,7 +20,6 @@ public class Transport {
 
     public Transport(MIDIHandler handler) {
         this.handler = handler;
-        currentStep = 0;
         tempo = 120;
         executorService = Executors.newSingleThreadScheduledExecutor();
         running = false;
@@ -38,12 +36,14 @@ public class Transport {
                 executorService = Executors.newSingleThreadScheduledExecutor();
 
             }
-            currentStep = 0;
+            for (Voice v: sequence.getVoices()) {
+                // Set each voice's current step to 0
+                v.reset();
+            }
             task = new Runnable() {
                 @Override
                 public void run() {
-                    outputNotes(currentStep);
-                    nextStep();
+                    outputNotes();
                 }
             };
             changeReadInterval(tempo);
@@ -74,20 +74,13 @@ public class Transport {
         this.sequence = sequence;
     }
 
-    private void outputNotes(int currentStep) {
+    private void outputNotes() {
         /*
             Send events to MIDIHandler
          */
         for (Voice v: sequence.getVoices()) {
-            send(v.getRow()[currentStep]);
-        }
-    }
-
-    private void nextStep() {
-        if (currentStep < sequence.getSteps() - 1) {
-            currentStep++;
-        } else {
-            currentStep = 0;
+            // Send event from each voice's current step
+            send(v.getCurrentEvent());
         }
     }
 

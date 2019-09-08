@@ -56,7 +56,7 @@ public class LSystem {
         /*
             Convert system from list to Sequence and return it
          */
-        Sequence sequence = new Sequence(system.size());
+        Sequence sequence = new Sequence();
         Voice voice = new Voice(system.size());
         for (int i = 0; i < system.size(); i++) {
             Event e = new RhythmEvent(mapElemToNote(system.get(i)));

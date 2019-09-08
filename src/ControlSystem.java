@@ -9,7 +9,6 @@ public class ControlSystem {
      */
     MIDIHandler handler = new MIDIHandler();
     Transport transport = new Transport(handler);
-    LSystemTransport lSystemTransport;
     Sequence sequence;
 
     /*
@@ -17,7 +16,6 @@ public class ControlSystem {
      */
     LSystem lSystem = new LSystem();
     MarkovMatrix markovMatrix = new MarkovMatrix();
-    ModeMapper modeMapper = new ModeMapper();
 
     /*
         User input variables
@@ -52,7 +50,7 @@ public class ControlSystem {
                         Voice voice = new Voice(1);
                         Event event = new MarkovEvent(markovMatrix, Mode.IONIAN);
                         voice.addEvent(event, 0);
-                        sequence = new Sequence(1);
+                        sequence = new Sequence();
                         sequence.addVoice(voice);
                         transport.setSequence(sequence);
                         transport.start(30);

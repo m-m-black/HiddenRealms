@@ -5,10 +5,12 @@
 
 public class Voice {
 
-    private Event[] row;
+    private Event[] row; // Each voice can have a different length
+    private int currentStep; // Each voice keeps track of its own current step
 
     public Voice(int steps) {
         row = new Event[steps];
+        currentStep = 0;
         initRow();
     }
 
@@ -29,6 +31,24 @@ public class Voice {
         for (int i = 0; i < row.length; i++) {
             row[i] = null; // -- init all row elements to null --
         }
+    }
+
+    public Event getCurrentEvent() {
+        Event event = row[currentStep];
+        nextStep();
+        return event;
+    }
+
+    private void nextStep() {
+        if (currentStep < row.length - 1) {
+            currentStep++;
+        } else {
+            currentStep = 0;
+        }
+    }
+
+    public void reset() {
+        currentStep = 0;
     }
 
     public Event[] getRow() {
