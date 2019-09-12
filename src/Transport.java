@@ -80,7 +80,11 @@ public class Transport {
          */
         for (Voice v: sequence.getVoices()) {
             // Send event from each voice's current step
-            send(v.getCurrentEvent());
+            Event e = v.getCurrentEvent();
+            if (e != null) {
+                send(e);
+            }
+            //send(v.getCurrentEvent());
         }
     }
 

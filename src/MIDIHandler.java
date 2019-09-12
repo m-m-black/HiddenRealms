@@ -4,47 +4,36 @@
  */
 
 import javax.sound.midi.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class MIDIHandler {
 
     private MidiDevice device;
-    private Receiver receiver;
-    private ShortMessage message;
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(16);
 
     public void openMIDIDevice() {
         MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
         try {
             device = MidiSystem.getMidiDevice(infos[3]);
             device.open();
-            receiver = device.getReceiver();
-            message = new ShortMessage();
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
         }
     }
 
     public void handle(Event event) {
-        /*
-            Extract MIDI device, channel and note info from event,
-            then send the note to the device on the channel
-         */
-        int midiNote = event.trigger();
-        try {
-            message.setMessage(ShortMessage.NOTE_ON, 0, midiNote, 100);
-            receiver.send(message, -1);
-        } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-        try {
-            message.setMessage(ShortMessage.NOTE_OFF, 0, midiNote, 0);
-            receiver.send(message, -1);
-        } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
+        executor.submit(new MIDINoteThread(device, event, 1000));
     }
 
     public void close() {
-        receiver.close();
+        try {
+            executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        executor.shutdown();
         device.close();
     }
 }

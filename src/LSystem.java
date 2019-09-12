@@ -52,18 +52,16 @@ public class LSystem {
         return system;
     }
 
-    public Sequence getSystemAsSequence() {
+    public Voice getSystemAsVoice() {
         /*
-            Convert system from list to Sequence and return it
+            Convert system from list to Voice and return it
          */
-        Sequence sequence = new Sequence();
         Voice voice = new Voice(system.size());
         for (int i = 0; i < system.size(); i++) {
             Event e = new RhythmEvent(mapElemToNote(system.get(i)));
             voice.addEvent(e, i);
         }
-        sequence.addVoice(voice);
-        return sequence;
+        return voice;
     }
 
     private int mapElemToNote(int n) {

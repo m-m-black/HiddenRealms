@@ -9,7 +9,7 @@ public class ControlSystem {
      */
     MIDIHandler handler = new MIDIHandler();
     Transport transport = new Transport(handler);
-    Sequence sequence;
+    Sequence sequence = new Sequence();
 
     /*
         Generative algorithm objects
@@ -45,15 +45,29 @@ public class ControlSystem {
                         lSystem.printSystem();
                         break;
                     case "START":
-//                        transport.setSequence(lSystem.getSystemAsSequence());
-//                        transport.start(120);
-                        Voice voice = new Voice(1);
+                        // LSystem voice
+                        Voice lSysVoice = lSystem.getSystemAsVoice();
+                        for (Event e: lSysVoice.getRow()) {
+                            e.setMidiChannel(0);
+                        }
+                        sequence.addVoice(lSysVoice);
+                        // EuclideanRhythm
+                        EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
+                        int[] rhythm = euclideanRhythm.generate(19, 3);
+                        // Markov voice
+                        Voice markovVoice = new Voice(rhythm.length);
                         Event event = new MarkovEvent(markovMatrix, Mode.IONIAN);
-                        voice.addEvent(event, 0);
-                        sequence = new Sequence();
-                        sequence.addVoice(voice);
+                        event.setMidiChannel(1);
+                        for (int i = 0; i < rhythm.length; i++) {
+                            if (rhythm[i] == 1) {
+                                markovVoice.addEvent(event, i);
+                            } else {
+                                markovVoice.addEvent(null, i);
+                            }
+                        }
+                        sequence.addVoice(markovVoice);
                         transport.setSequence(sequence);
-                        transport.start(30);
+                        transport.start(120);
                         break;
                     case "STOP":
                         transport.stop();
@@ -75,8 +89,8 @@ public class ControlSystem {
                         if (tokens.length == 4) {
                             rotation = Integer.parseInt(tokens[3]);
                         }
-                        EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
-                        int[] rhythm = euclideanRhythm.generate(steps, notes, rotation);
+                        euclideanRhythm = new EuclideanRhythm();
+                        rhythm = euclideanRhythm.generate(steps, notes, rotation);
                         for (int i: rhythm) {
                             System.out.print(i + " ");
                         }

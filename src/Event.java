@@ -6,6 +6,7 @@
 public class Event {
 
     protected int midiNote;
+    protected int midiChannel;
 
     public Event() {
 
@@ -13,6 +14,14 @@ public class Event {
 
     public Event(int midiNote) {
         this.midiNote = midiNote;
+    }
+
+    protected int getMidiChannel() {
+        return midiChannel;
+    }
+
+    protected void setMidiChannel(int midiChannel) {
+        this.midiChannel = midiChannel;
     }
 
     /*
