@@ -11,20 +11,29 @@ import java.util.concurrent.TimeUnit;
 public class MIDIHandler {
 
     private MidiDevice device;
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(16);
+    private ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(32);
+    private int sleepTime;
+
+    public MIDIHandler(int tempo) {
+        long ms = Utility.bpmToMS(tempo);
+        sleepTime = (int) ms;
+    }
 
     public void openMIDIDevice() {
         MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
         try {
             device = MidiSystem.getMidiDevice(infos[3]);
             device.open();
+            if (executor.isShutdown()) {
+                executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(32);
+            }
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
         }
     }
 
     public void handle(Event event) {
-        executor.submit(new MIDINoteThread(device, event, 1000));
+        executor.submit(new MIDINoteThread(device, event, sleepTime));
     }
 
     public void close() {

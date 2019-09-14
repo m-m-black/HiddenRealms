@@ -34,7 +34,6 @@ public class Transport {
             handler.openMIDIDevice();
             if (executorService.isShutdown()) {
                 executorService = Executors.newSingleThreadScheduledExecutor();
-
             }
             for (Voice v: sequence.getVoices()) {
                 // Set each voice's current step to 0
@@ -84,7 +83,6 @@ public class Transport {
             if (e != null) {
                 send(e);
             }
-            //send(v.getCurrentEvent());
         }
     }
 

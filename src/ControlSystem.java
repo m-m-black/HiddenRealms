@@ -7,7 +7,7 @@ public class ControlSystem {
     /*
         Global transport and handler objects
      */
-    MIDIHandler handler = new MIDIHandler();
+    MIDIHandler handler = new MIDIHandler(120);
     Transport transport = new Transport(handler);
     Sequence sequence = new Sequence();
 
@@ -44,7 +44,8 @@ public class ControlSystem {
                         lSystem.generate();
                         lSystem.printSystem();
                         break;
-                    case "START":
+                    case "CUE":
+                        sequence = new Sequence();
                         // LSystem voice
                         Voice lSysVoice = lSystem.getSystemAsVoice();
                         for (Event e: lSysVoice.getRow()) {
@@ -53,11 +54,22 @@ public class ControlSystem {
                         sequence.addVoice(lSysVoice);
                         // EuclideanRhythm
                         EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
-                        int[] rhythm = euclideanRhythm.generate(19, 3);
+                        // Snare pattern
+                        int[] snarePattern = euclideanRhythm.generate(16, 2, 4);
+                        Voice snareVoice = new Voice(snarePattern.length);
+                        Event snareEvent = new RhythmEvent(39);
+                        snareEvent.setMidiChannel(1);
+                        for (int i = 0; i < snarePattern.length; i++) {
+                            if (snarePattern[i] == 1) {
+                                snareVoice.addEvent(snareEvent, i);
+                            }
+                        }
+                        sequence.addVoice(snareVoice);
+                        int[] rhythm = euclideanRhythm.generate(16, 4);
                         // Markov voice
                         Voice markovVoice = new Voice(rhythm.length);
-                        Event event = new MarkovEvent(markovMatrix, Mode.IONIAN);
-                        event.setMidiChannel(1);
+                        Event event = new MarkovEvent(markovMatrix, Mode.DORIAN);
+                        event.setMidiChannel(2);
                         for (int i = 0; i < rhythm.length; i++) {
                             if (rhythm[i] == 1) {
                                 markovVoice.addEvent(event, i);
@@ -67,6 +79,8 @@ public class ControlSystem {
                         }
                         sequence.addVoice(markovVoice);
                         transport.setSequence(sequence);
+                        break;
+                    case "START":
                         transport.start(120);
                         break;
                     case "STOP":
