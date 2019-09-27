@@ -18,6 +18,18 @@ public class ControlSystem {
     MarkovMatrix markovMatrix = new MarkovMatrix();
 
     /*
+        Individual voice objects
+        Voice 0 = rhythm
+        Voice 1 = bass
+        Voice 2 = chords
+        Voice 3 = melody
+     */
+    Voice rhythmVoice;
+    Voice bassVoice;
+    Voice chordVoice;
+    Voice melodyVoice;
+
+    /*
         User input variables
      */
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -37,47 +49,51 @@ public class ControlSystem {
                 switch (command.toUpperCase()) {
                     case "LSYS":
                         lSystem = new LSystem();
-                        lSystem.parseRules(tokens[1]);
+                        //lSystem.parseRules(tokens[1]);
+                        int n = Integer.parseInt(tokens[1]);
+                        lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
                         break;
                     case "GEN":
                         lSystem.generate();
                         lSystem.printSystem();
+                        rhythmVoice = lSystem.getSystemAsVoice();
+                        for (Event e: rhythmVoice.getRow()) {
+                            e.setMidiChannel(0);
+                        }
                         break;
                     case "CUE":
                         sequence = new Sequence();
                         // LSystem voice
-                        Voice lSysVoice = lSystem.getSystemAsVoice();
-                        for (Event e: lSysVoice.getRow()) {
-                            e.setMidiChannel(0);
-                        }
-                        sequence.addVoice(lSysVoice);
+                        sequence.addVoice(rhythmVoice);
                         // EuclideanRhythm
                         EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
-                        // Snare pattern
-                        int[] snarePattern = euclideanRhythm.generate(16, 2, 4);
-                        Voice snareVoice = new Voice(snarePattern.length);
-                        Event snareEvent = new RhythmEvent(39);
-                        snareEvent.setMidiChannel(1);
-                        for (int i = 0; i < snarePattern.length; i++) {
-                            if (snarePattern[i] == 1) {
-                                snareVoice.addEvent(snareEvent, i);
-                            }
-                        }
-                        sequence.addVoice(snareVoice);
-                        int[] rhythm = euclideanRhythm.generate(16, 4);
-                        // Markov voice
-                        Voice markovVoice = new Voice(rhythm.length);
+                        int[] melodyRhythm = euclideanRhythm.generate(16, 4);
+                        // Markov melody voice
+                        melodyVoice = new Voice(melodyRhythm.length);
                         Event event = new MarkovEvent(markovMatrix, Mode.DORIAN);
-                        event.setMidiChannel(2);
-                        for (int i = 0; i < rhythm.length; i++) {
-                            if (rhythm[i] == 1) {
-                                markovVoice.addEvent(event, i);
+                        event.setMidiChannel(1);
+                        for (int i = 0; i < melodyRhythm.length; i++) {
+                            if (melodyRhythm[i] == 1) {
+                                melodyVoice.addEvent(event, i);
                             } else {
-                                markovVoice.addEvent(null, i);
+                                melodyVoice.addEvent(null, i);
                             }
                         }
-                        sequence.addVoice(markovVoice);
+                        // Markov bass voice
+                        int[] bassRhythm = euclideanRhythm.generate(16, 3, 2);
+                        bassVoice = new Voice(bassRhythm.length);
+                        Event event1 = new MarkovEvent(markovMatrix, Mode.DORIAN);
+                        event1.setMidiChannel(2);
+                        for (int i = 0; i < bassRhythm.length; i++) {
+                            if (bassRhythm[i] == 1) {
+                                bassVoice.addEvent(event1, i);
+                            } else {
+                                bassVoice.addEvent(null, i);
+                            }
+                        }
+                        sequence.addVoice(bassVoice);
+                        sequence.addVoice(melodyVoice);
                         transport.setSequence(sequence);
                         break;
                     case "START":
@@ -103,12 +119,12 @@ public class ControlSystem {
                         if (tokens.length == 4) {
                             rotation = Integer.parseInt(tokens[3]);
                         }
-                        euclideanRhythm = new EuclideanRhythm();
-                        rhythm = euclideanRhythm.generate(steps, notes, rotation);
-                        for (int i: rhythm) {
-                            System.out.print(i + " ");
-                        }
-                        System.out.println();
+//                        euclideanRhythm = new EuclideanRhythm();
+//                        rhythm = euclideanRhythm.generate(steps, notes, rotation);
+//                        for (int i: rhythm) {
+//                            System.out.print(i + " ");
+//                        }
+//                        System.out.println();
                         break;
                     case "QUIT":
                         quit = true;

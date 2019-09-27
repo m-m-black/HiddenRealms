@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class LSystem {
 
@@ -20,6 +21,23 @@ public class LSystem {
                 rules[i].add(Integer.parseInt(tokens[i].substring(y, y+1)));
             }
         }
+    }
+
+    public String makeRules(int n) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            int r = random.nextInt(4) + 1; // Length of fragment
+            for (int j = 0; j < r; j++) {
+                int e = random.nextInt(n);
+                stringBuilder.append(e);
+            }
+            if (i < n-1) {
+                stringBuilder.append("/");
+            }
+        }
+        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
     }
 
     public void printRules() {
