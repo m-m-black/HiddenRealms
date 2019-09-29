@@ -5,11 +5,13 @@ public class LSystem {
 
     private ArrayList<Integer>[] rules;
     private ArrayList<Integer> system;
+    private int noteStart;
 
     public LSystem() {
         int axiom = 0; // -- Start with an axiom of 0 for now --
         system = new ArrayList<>();
         system.add(axiom);
+        noteStart = 36;
     }
 
     public void parseRules(String ruleString) {
@@ -82,25 +84,30 @@ public class LSystem {
         return voice;
     }
 
+    // -- Set MIDI note values for each alphabet element --
     private int mapElemToNote(int n) {
         int returnValue = 0;
         if (n == 0) {
-            returnValue = 36;
+            returnValue = noteStart;
         } else if (n == 1) {
-            returnValue = 37;
+            returnValue = noteStart + 1;
         } else if (n == 2) {
-            returnValue = 38;
+            returnValue = noteStart + 2;
         } else if (n == 3) {
-            returnValue = 39;
+            returnValue = noteStart + 3;
         } else if (n == 4) {
-            returnValue = 40;
+            returnValue = noteStart + 4;
         } else if (n == 5) {
-            returnValue = 41;
+            returnValue = noteStart + 5;
         } else if (n == 6) {
-            returnValue = 42;
+            returnValue = noteStart + 6;
         } else if (n == 7) {
-            returnValue = 43;
+            returnValue = noteStart + 7;
         }
         return returnValue;
+    }
+
+    public void setNoteStart(int noteStart) {
+        this.noteStart = this.noteStart + noteStart;
     }
 }

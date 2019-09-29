@@ -20,4 +20,9 @@ public class Sequence {
     public ArrayList<Voice> getVoices() {
         return voices;
     }
+
+    // -- Replace voice at index --
+    public void replace(Voice voice, int index) {
+        voices.set(index, voice);
+    }
 }

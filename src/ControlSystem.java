@@ -62,6 +62,10 @@ public class ControlSystem {
                             e.setMidiChannel(0);
                         }
                         break;
+                    case "SET": // -- Sets the MIDI note range --
+                        lSystem.setNoteStart(Integer.parseInt(tokens[1]));
+                        sequence.replace(lSystem.getSystemAsVoice(), 0);
+                        break;
                     case "CUE":
                         sequence = new Sequence();
                         // LSystem voice
