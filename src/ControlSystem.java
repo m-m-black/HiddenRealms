@@ -47,6 +47,9 @@ public class ControlSystem {
                 command = tokens[0];
 
                 switch (command.toUpperCase()) {
+                    case "TEMPO":
+                        transport.setTempo(Integer.parseInt(tokens[1]));
+                        break;
                     case "LSYS":
                         lSystem = new LSystem();
                         //lSystem.parseRules(tokens[1]);

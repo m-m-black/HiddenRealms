@@ -67,6 +67,9 @@ public class Transport {
 
     public void setTempo(double tempo) {
         this.tempo = tempo;
+        if (running) {
+            changeReadInterval(tempo);
+        }
     }
 
     public void setSequence(Sequence sequence) {
@@ -86,7 +89,7 @@ public class Transport {
         }
     }
 
-    public void changeReadInterval(int tempo) {
+    public void changeReadInterval(double tempo) {
         long time = Utility.bpmToMS(tempo);
         if (time > 0) {
             if (futureTask != null) {
