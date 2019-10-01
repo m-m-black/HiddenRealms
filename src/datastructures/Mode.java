@@ -1,3 +1,5 @@
+package datastructures;
+
 public enum Mode {
     IONIAN,
     DORIAN,

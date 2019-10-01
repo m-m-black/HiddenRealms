@@ -1,7 +1,10 @@
-/*
+package transport;/*
     Receives events from the transport,
     and sends event messages to their specified MIDI device and channel
  */
+
+import events.Event;
+import utility.Utility;
 
 import javax.sound.midi.*;
 import java.util.concurrent.Executors;

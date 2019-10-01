@@ -1,7 +1,13 @@
-/*
+package transport;/*
     Receives the sequence and steps through it,
     sending events to the MIDI handler at a specified tempo.
  */
+
+import datastructures.Sequence;
+import datastructures.Voice;
+import events.Event;
+import transport.MIDIHandler;
+import utility.Utility;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -78,7 +84,7 @@ public class Transport {
 
     private void outputNotes() {
         /*
-            Send events to MIDIHandler
+            Send events to transport.MIDIHandler
          */
         for (Voice v: sequence.getVoices()) {
             // Send event from each voice's current step

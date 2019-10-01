@@ -1,3 +1,9 @@
+package generative;
+
+import datastructures.Voice;
+import events.Event;
+import events.RhythmEvent;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -74,7 +80,7 @@ public class LSystem {
 
     public Voice getSystemAsVoice() {
         /*
-            Convert system from list to Voice and return it
+            Convert system from list to datastructures.Voice and return it
          */
         Voice voice = new Voice(system.size());
         for (int i = 0; i < system.size(); i++) {

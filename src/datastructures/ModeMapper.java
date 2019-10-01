@@ -1,3 +1,8 @@
+package datastructures;
+
+import datastructures.Degree;
+import datastructures.Mode;
+
 import java.util.HashMap;
 
 public class ModeMapper {

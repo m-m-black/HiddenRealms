@@ -1,3 +1,5 @@
+package generative;
+
 public class EuclideanRhythm {
 
     public int[] generate(int steps, int notes) {

@@ -1,3 +1,7 @@
+package transport;
+
+import events.Event;
+
 import javax.sound.midi.*;
 
 public class MIDINoteThread extends Thread {

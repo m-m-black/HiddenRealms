@@ -1,3 +1,17 @@
+package main;
+
+import datastructures.Mode;
+import datastructures.Sequence;
+import datastructures.Voice;
+import events.Event;
+import events.MarkovEvent;
+import generative.EuclideanRhythm;
+import generative.LSystem;
+import generative.MarkovMatrix;
+import transport.MIDIHandler;
+import transport.Transport;
+import utility.Utility;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,10 +33,10 @@ public class ControlSystem {
 
     /*
         Individual voice objects
-        Voice 0 = rhythm
-        Voice 1 = bass
-        Voice 2 = chords
-        Voice 3 = melody
+        datastructures.Voice 0 = rhythm
+        datastructures.Voice 1 = bass
+        datastructures.Voice 2 = chords
+        datastructures.Voice 3 = melody
      */
     Voice rhythmVoice;
     Voice bassVoice;
@@ -71,9 +85,9 @@ public class ControlSystem {
                         break;
                     case "CUE":
                         sequence = new Sequence();
-                        // LSystem voice
+                        // generative.LSystem voice
                         sequence.addVoice(rhythmVoice);
-                        // EuclideanRhythm
+                        // generative.EuclideanRhythm
                         EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
                         int[] melodyRhythm = euclideanRhythm.generate(16, 4);
                         // Markov melody voice
@@ -126,7 +140,7 @@ public class ControlSystem {
                         if (tokens.length == 4) {
                             rotation = Integer.parseInt(tokens[3]);
                         }
-//                        euclideanRhythm = new EuclideanRhythm();
+//                        euclideanRhythm = new generative.EuclideanRhythm();
 //                        rhythm = euclideanRhythm.generate(steps, notes, rotation);
 //                        for (int i: rhythm) {
 //                            System.out.print(i + " ");

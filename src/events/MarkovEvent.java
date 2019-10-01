@@ -1,3 +1,10 @@
+package events;
+
+import datastructures.Degree;
+import datastructures.Mode;
+import datastructures.ModeMapper;
+import generative.MarkovMatrix;
+
 public class MarkovEvent extends Event {
 
     private MarkovMatrix markovMatrix;

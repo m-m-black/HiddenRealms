@@ -1,3 +1,10 @@
+package generative;
+
+import datastructures.Degree;
+import datastructures.Tuple;
+import datastructures.WeightComparator;
+import utility.Utility;
+
 import java.util.*;
 
 public class MarkovMatrix {

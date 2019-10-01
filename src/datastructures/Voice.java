@@ -1,7 +1,9 @@
-/*
+package datastructures;/*
     A single row within the sequence,
-    initialised with the parent Event type.
+    initialised with the parent events.Event type.
  */
+
+import events.Event;
 
 public class Voice {
 

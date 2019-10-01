@@ -1,3 +1,7 @@
+package datastructures;
+
+import datastructures.Tuple;
+
 import java.util.Comparator;
 
 public class WeightComparator implements Comparator<Tuple> {

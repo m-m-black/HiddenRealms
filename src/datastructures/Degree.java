@@ -1,3 +1,5 @@
+package datastructures;
+
 public enum Degree {
     I,
     II,

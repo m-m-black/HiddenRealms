@@ -1,3 +1,7 @@
+package datastructures;
+
+import datastructures.Degree;
+
 public class Tuple {
 
     private double p;

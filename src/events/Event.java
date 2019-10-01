@@ -1,4 +1,4 @@
-/*
+package events;/*
     Atomic unit that represents a musical event.
     An event could be a pitched MIDI note, or an un-pitched MIDI trigger.
  */
@@ -16,11 +16,11 @@ public class Event {
         this.midiNote = midiNote;
     }
 
-    protected int getMidiChannel() {
+    public int getMidiChannel() {
         return midiChannel;
     }
 
-    protected void setMidiChannel(int midiChannel) {
+    public void setMidiChannel(int midiChannel) {
         this.midiChannel = midiChannel;
     }
 
