@@ -71,6 +71,10 @@ public class ControlSystem {
                         lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
                         break;
+                    case "DENS":
+                        int density = Integer.parseInt(tokens[1]);
+                        rhythmVoice = lSystem.getSystemAsVoiceAtDensity(density);
+                        break;
                     case "GEN":
                         lSystem.generate();
                         lSystem.printSystem();

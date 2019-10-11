@@ -5,6 +5,7 @@ import events.Event;
 import events.RhythmEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class LSystem {
@@ -58,6 +59,7 @@ public class LSystem {
     }
 
     public void printSystem() {
+        System.out.println("Generated");
         for (int i: system) {
             System.out.print(i + " ");
         }
@@ -86,6 +88,40 @@ public class LSystem {
         for (int i = 0; i < system.size(); i++) {
             Event e = new RhythmEvent(mapElemToNote(system.get(i)));
             voice.addEvent(e, i);
+        }
+        return voice;
+    }
+
+    /*
+        Return voice containing system at lower density.
+        Density value of 2 = every second note.
+        Density value of 3 = every third note.
+        Etc.
+     */
+    // TODO Throw exception if density value is less than 2
+    // TODO as 1 is already maximum density
+    public Voice getSystemAsVoiceAtDensity(int density) {
+        Voice voice = new Voice(system.size());
+        HashMap<Integer, Integer> counters = new HashMap<>();
+        for (int i = 0; i < system.size(); i++) {
+            int elem = system.get(i);
+            // Create counter for each element upon first occurrence
+            if (!counters.containsKey(elem)) {
+                counters.put(elem, 0);
+            }
+            // Add events when counter is 0, null otherwise
+            if (counters.get(elem) == 0) {
+                Event e = new RhythmEvent(mapElemToNote(elem));
+                voice.addEvent(e, i);
+                counters.replace(elem, 1);
+            } else {
+                voice.addEvent(null, i);
+                counters.replace(elem, counters.get(elem) + 1);
+            }
+            // Reset counter if it equals the density setting
+            if (counters.get(elem) == density) {
+                counters.replace(elem, 0);
+            }
         }
         return voice;
     }
