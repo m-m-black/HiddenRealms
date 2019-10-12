@@ -73,7 +73,8 @@ public class ControlSystem {
                         break;
                     case "DENS":
                         int density = Integer.parseInt(tokens[1]);
-                        rhythmVoice = lSystem.getSystemAsVoiceAtDensity(density);
+                        //rhythmVoice = lSystem.getSystemAsVoiceAtDensityKeepNth(density);
+                        rhythmVoice = lSystem.getSystemAsVoiceAtDensityDropNth(density);
                         break;
                     case "GEN":
                         lSystem.generate();
