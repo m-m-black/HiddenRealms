@@ -94,8 +94,8 @@ public class LSystem {
 
     /*
         Return voice containing system at lower density.
-        Density value of 2 = every second note.
-        Density value of 3 = every third note.
+        Density value of 2 = keep every second note.
+        Density value of 3 = keep every third note.
         Etc.
      */
     // TODO Throw exception if density value is less than 2
@@ -126,6 +126,14 @@ public class LSystem {
         return voice;
     }
 
+    /*
+        Return voice containing system at lower density.
+        Density value of 2 = drop every second note.
+        Density value of 3 = drop every third note.
+        Etc.
+     */
+    // TODO Throw exception if density value is less than 2
+    // TODO as 1 is already maximum density
     public Voice getSystemAsVoiceAtDensityDropNth(int density) {
         Voice voice = new Voice(system.size());
         HashMap<Integer, Integer> counters = new HashMap<>();
