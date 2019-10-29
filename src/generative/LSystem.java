@@ -13,12 +13,14 @@ public class LSystem {
     private ArrayList<Integer>[] rules;
     private ArrayList<Integer> system;
     private int noteStart;
+    private int density;
 
-    public LSystem() {
+    public LSystem(int noteStart, int density) {
         int axiom = 0; // -- Start with an axiom of 0 for now --
         system = new ArrayList<>();
         system.add(axiom);
-        noteStart = 36;
+        this.noteStart = 36 + noteStart;
+        this.density = density;
     }
 
     public void parseRules(String ruleString) {
@@ -92,6 +94,12 @@ public class LSystem {
         return voice;
     }
 
+    public Voice getSystemAtCurrentValues() {
+        // Build voice at current density and noteStart settings
+        Voice voice = getSystemAsVoiceAtDensityKeepNth(density);
+        return voice;
+    }
+
     /*
         Return voice containing system at lower density.
         Density value of 2 = keep every second note.
@@ -99,7 +107,7 @@ public class LSystem {
         Etc.
      */
     // TODO Throw exception if density value is less than 2
-    // TODO as 1 is already maximum density
+    // TODO as 1 is already maximum density.
     public Voice getSystemAsVoiceAtDensityKeepNth(int density) {
         Voice voice = new Voice(system.size());
         HashMap<Integer, Integer> counters = new HashMap<>();
@@ -133,7 +141,10 @@ public class LSystem {
         Etc.
      */
     // TODO Throw exception if density value is less than 2
-    // TODO as 1 is already maximum density
+    // TODO as 1 is already maximum density.
+    // TODO Also need to figure out how to handle a density value
+    // TODO of 1, which should mean full density, but does not
+    // TODO result in this in the code below.
     public Voice getSystemAsVoiceAtDensityDropNth(int density) {
         Voice voice = new Voice(system.size());
         HashMap<Integer, Integer> counters = new HashMap<>();
@@ -185,5 +196,9 @@ public class LSystem {
 
     public void setNoteStart(int noteStart) {
         this.noteStart = this.noteStart + noteStart;
+    }
+
+    public void setDensity(int density) {
+        this.density = density;
     }
 }

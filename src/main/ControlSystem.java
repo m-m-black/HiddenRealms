@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import processing.core.PApplet;
+
 public class ControlSystem {
 
     /*
@@ -24,11 +26,14 @@ public class ControlSystem {
     MIDIHandler handler = new MIDIHandler(120);
     Transport transport = new Transport(handler);
     Sequence sequence = new Sequence();
+    PApplet pApplet = new PApplet();
 
     /*
         Generative algorithm objects
      */
-    LSystem lSystem = new LSystem();
+    int lSysDensity = 1;
+    int lSysNoteStartOffset = 0;
+    LSystem lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
     MarkovMatrix markovMatrix = new MarkovMatrix();
 
     /*
@@ -64,29 +69,37 @@ public class ControlSystem {
                     case "TEMPO":
                         transport.setTempo(Integer.parseInt(tokens[1]));
                         break;
+                    case "NOISE":
+                        // Print the Perlin noise value at t = 0
+                        System.out.println(pApplet.noise(0));
+                        break;
                     case "LSYS":
-                        lSystem = new LSystem();
+                        lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
                         //lSystem.parseRules(tokens[1]);
                         int n = Integer.parseInt(tokens[1]);
                         lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
                         break;
                     case "DENS":
-                        int density = Integer.parseInt(tokens[1]);
-                        //rhythmVoice = lSystem.getSystemAsVoiceAtDensityKeepNth(density);
-                        rhythmVoice = lSystem.getSystemAsVoiceAtDensityDropNth(density);
+                        lSysDensity = Integer.parseInt(tokens[1]);
+                        lSystem.setDensity(lSysDensity);
+                        rhythmVoice = lSystem.getSystemAtCurrentValues();
                         break;
                     case "GEN":
                         lSystem.generate();
                         lSystem.printSystem();
-                        rhythmVoice = lSystem.getSystemAsVoice();
+                        rhythmVoice = lSystem.getSystemAtCurrentValues();
                         for (Event e: rhythmVoice.getRow()) {
-                            e.setMidiChannel(0);
+                            if (e != null) {
+                                e.setMidiChannel(0);
+                            }
                         }
                         break;
                     case "SET": // -- Sets the MIDI note range --
-                        lSystem.setNoteStart(Integer.parseInt(tokens[1]));
-                        sequence.replace(lSystem.getSystemAsVoice(), 0);
+                        int noteStartAlpha = Integer.parseInt(tokens[1]);
+                        lSysNoteStartOffset += noteStartAlpha;
+                        lSystem.setNoteStart(noteStartAlpha);
+                        sequence.replace(lSystem.getSystemAtCurrentValues(), 0);
                         break;
                     case "CUE":
                         sequence = new Sequence();
