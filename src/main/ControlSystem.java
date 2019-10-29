@@ -35,18 +35,8 @@ public class ControlSystem {
     int lSysNoteStartOffset = 0;
     LSystem lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
     MarkovMatrix markovMatrix = new MarkovMatrix();
-
-    /*
-        Individual voice objects
-        datastructures.Voice 0 = rhythm
-        datastructures.Voice 1 = bass
-        datastructures.Voice 2 = chords
-        datastructures.Voice 3 = melody
-     */
+    int noiseOffset = 0;
     Voice rhythmVoice;
-    Voice bassVoice;
-    Voice chordVoice;
-    Voice melodyVoice;
 
     /*
         User input variables
@@ -70,8 +60,14 @@ public class ControlSystem {
                         transport.setTempo(Integer.parseInt(tokens[1]));
                         break;
                     case "NOISE":
-                        // Print the Perlin noise value at t = 0
-                        System.out.println(pApplet.noise(0));
+                        // Set density to quantised noise value
+                        double noise = pApplet.noise(noiseOffset);
+                        noiseOffset++;
+                        System.out.println(noise);
+                        int quantisedN = Utility.quantise(noise);
+                        lSysDensity = quantisedN;
+                        lSystem.setDensity(quantisedN);
+                        buildRhythmVoice();
                         break;
                     case "LSYS":
                         lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
@@ -80,17 +76,15 @@ public class ControlSystem {
                         lSystem.printRules();
                         break;
                     case "DENS": // -- Sets the density setting --
-                        // Update global density value
-                        lSysDensity = Integer.parseInt(tokens[1]);
-                        // Update local density value
-                        lSystem.setDensity(lSysDensity);
-                        // Build voice with updated density value
-                        rhythmVoice = lSystem.getSystemAtCurrentValues();
+                        int newDensity = Integer.parseInt(tokens[1]);
+                        dens(newDensity);
+                        buildRhythmVoice();
+                        sequence.replace(rhythmVoice, 0);
                         break;
                     case "GEN":
                         lSystem.generate();
                         lSystem.printSystem();
-                        rhythmVoice = lSystem.getSystemAtCurrentValues();
+                        buildRhythmVoice();
                         for (Event e: rhythmVoice.getRow()) {
                             if (e != null) {
                                 e.setMidiChannel(0);
@@ -98,48 +92,13 @@ public class ControlSystem {
                         }
                         break;
                     case "SET": // -- Sets the MIDI note range --
-                        // Get change in note start value from console
                         int noteStartAlpha = Integer.parseInt(tokens[1]);
-                        // Update global note start value
-                        lSysNoteStartOffset += noteStartAlpha;
-                        // Update local note start value
-                        lSystem.setNoteStart(noteStartAlpha);
-                        // Build voice with updated note start value and replace in sequence
-                        sequence.replace(lSystem.getSystemAtCurrentValues(), 0);
+                        set(noteStartAlpha);
+                        buildRhythmVoice();
+                        sequence.replace(rhythmVoice, 0);
                         break;
                     case "CUE":
-                        sequence = new Sequence();
-                        // generative.LSystem voice
-                        sequence.addVoice(rhythmVoice);
-                        // generative.EuclideanRhythm
-                        EuclideanRhythm euclideanRhythm = new EuclideanRhythm();
-                        int[] melodyRhythm = euclideanRhythm.generate(16, 4);
-                        // Markov melody voice
-                        melodyVoice = new Voice(melodyRhythm.length);
-                        Event event = new MarkovEvent(markovMatrix, Mode.DORIAN);
-                        event.setMidiChannel(1);
-                        for (int i = 0; i < melodyRhythm.length; i++) {
-                            if (melodyRhythm[i] == 1) {
-                                melodyVoice.addEvent(event, i);
-                            } else {
-                                melodyVoice.addEvent(null, i);
-                            }
-                        }
-                        // Markov bass voice
-                        int[] bassRhythm = euclideanRhythm.generate(16, 3, 2);
-                        bassVoice = new Voice(bassRhythm.length);
-                        Event event1 = new MarkovEvent(markovMatrix, Mode.DORIAN);
-                        event1.setMidiChannel(2);
-                        for (int i = 0; i < bassRhythm.length; i++) {
-                            if (bassRhythm[i] == 1) {
-                                bassVoice.addEvent(event1, i);
-                            } else {
-                                bassVoice.addEvent(null, i);
-                            }
-                        }
-                        sequence.addVoice(bassVoice);
-                        sequence.addVoice(melodyVoice);
-                        transport.setSequence(sequence);
+                        cue();
                         break;
                     case "START":
                         transport.start(120);
@@ -164,7 +123,7 @@ public class ControlSystem {
                         if (tokens.length == 4) {
                             rotation = Integer.parseInt(tokens[3]);
                         }
-                        euclideanRhythm = new generative.EuclideanRhythm();
+                        EuclideanRhythm euclideanRhythm = new generative.EuclideanRhythm();
                         int[] rhythm = euclideanRhythm.generate(steps, notes, rotation);
                         for (int i: rhythm) {
                             System.out.print(i + " ");
@@ -181,5 +140,31 @@ public class ControlSystem {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Build sequence and add it to the transport
+    private void cue() {
+        sequence = new Sequence();
+        sequence.addVoice(rhythmVoice);
+        transport.setSequence(sequence);
+    }
+
+    // Set global and local density values
+    private void dens(int n) {
+        lSysDensity = n; // -- Global density value --
+        lSystem.setDensity(lSysDensity); // -- Local density value --
+    }
+
+    // Build rhythm voice based on current lSystem values
+    private void buildRhythmVoice() {
+        rhythmVoice = lSystem.getSystemAtCurrentValues();
+    }
+
+    // Set global and local note start values
+    private void set(int n) {
+        // Update global note start value
+        lSysNoteStartOffset += n;
+        // Update local note start value
+        lSystem.setNoteStart(n);
     }
 }

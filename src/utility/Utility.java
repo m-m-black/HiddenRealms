@@ -27,4 +27,18 @@ public class Utility {
 
         return nums;
     }
+
+    public static int quantise(double n) {
+        int value;
+        if (n < 0.25) {
+            value = 1;
+        } else if (n < 0.5) {
+            value = 2;
+        } else if (n < 0.75) {
+            value = 3;
+        } else {
+            value = 4;
+        }
+        return value;
+    }
 }
