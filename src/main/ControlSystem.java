@@ -79,9 +79,12 @@ public class ControlSystem {
                         lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
                         break;
-                    case "DENS":
+                    case "DENS": // -- Sets the density setting --
+                        // Update global density value
                         lSysDensity = Integer.parseInt(tokens[1]);
+                        // Update local density value
                         lSystem.setDensity(lSysDensity);
+                        // Build voice with updated density value
                         rhythmVoice = lSystem.getSystemAtCurrentValues();
                         break;
                     case "GEN":
@@ -95,9 +98,13 @@ public class ControlSystem {
                         }
                         break;
                     case "SET": // -- Sets the MIDI note range --
+                        // Get change in note start value from console
                         int noteStartAlpha = Integer.parseInt(tokens[1]);
+                        // Update global note start value
                         lSysNoteStartOffset += noteStartAlpha;
+                        // Update local note start value
                         lSystem.setNoteStart(noteStartAlpha);
+                        // Build voice with updated note start value and replace in sequence
                         sequence.replace(lSystem.getSystemAtCurrentValues(), 0);
                         break;
                     case "CUE":
