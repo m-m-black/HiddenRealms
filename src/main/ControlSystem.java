@@ -75,7 +75,6 @@ public class ControlSystem {
                         break;
                     case "LSYS":
                         lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
-                        //lSystem.parseRules(tokens[1]);
                         int n = Integer.parseInt(tokens[1]);
                         lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
@@ -158,12 +157,12 @@ public class ControlSystem {
                         if (tokens.length == 4) {
                             rotation = Integer.parseInt(tokens[3]);
                         }
-//                        euclideanRhythm = new generative.EuclideanRhythm();
-//                        rhythm = euclideanRhythm.generate(steps, notes, rotation);
-//                        for (int i: rhythm) {
-//                            System.out.print(i + " ");
-//                        }
-//                        System.out.println();
+                        euclideanRhythm = new generative.EuclideanRhythm();
+                        int[] rhythm = euclideanRhythm.generate(steps, notes, rotation);
+                        for (int i: rhythm) {
+                            System.out.print(i + " ");
+                        }
+                        System.out.println();
                         break;
                     case "QUIT":
                         quit = true;
