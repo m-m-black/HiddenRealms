@@ -75,9 +75,8 @@ public class ControlSystem {
                         lSystem.parseRules(lSystem.makeRules(n));
                         lSystem.printRules();
                         break;
-                    case "DENS": // -- Sets the density setting --
-                        int newDensity = Integer.parseInt(tokens[1]);
-                        dens(newDensity);
+                    case "DENS": // -- Changes the density of the rhythm --
+                        dens(Integer.parseInt(tokens[1]));
                         buildRhythmVoice();
                         sequence.replace(rhythmVoice, 0);
                         break;
@@ -85,15 +84,9 @@ public class ControlSystem {
                         lSystem.generate();
                         lSystem.printSystem();
                         buildRhythmVoice();
-                        for (Event e: rhythmVoice.getRow()) {
-                            if (e != null) {
-                                e.setMidiChannel(0);
-                            }
-                        }
                         break;
-                    case "SET": // -- Sets the MIDI note range --
-                        int noteStartAlpha = Integer.parseInt(tokens[1]);
-                        set(noteStartAlpha);
+                    case "SET": // -- Changes the range of MIDI note values --
+                        set(Integer.parseInt(tokens[1]));
                         buildRhythmVoice();
                         sequence.replace(rhythmVoice, 0);
                         break;

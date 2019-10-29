@@ -120,6 +120,7 @@ public class LSystem {
             // Add events when counter is 0, null otherwise
             if (counters.get(elem) == 0) {
                 Event e = new RhythmEvent(mapElemToNote(elem));
+                e.setMidiChannel(0);
                 voice.addEvent(e, i);
                 counters.replace(elem, 1);
             } else {
