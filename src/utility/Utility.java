@@ -41,4 +41,18 @@ public class Utility {
         }
         return value;
     }
+
+    public static int quantNoteStart(double n) {
+        int value;
+        if (n < 0.25) {
+            value = -4;
+        } else if (n < 0.5) {
+            value = -2;
+        } else if (n < 0.75) {
+            value = 2;
+        } else {
+            value = 4;
+        }
+        return value;
+    }
 }

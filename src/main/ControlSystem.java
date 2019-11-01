@@ -67,6 +67,8 @@ public class ControlSystem {
                         int quantisedN = Utility.quantise(noise);
                         lSysDensity = quantisedN;
                         lSystem.setDensity(quantisedN);
+                        // Set note start offset to quantised noise value
+                        set(Utility.quantNoteStart(noise));
                         buildRhythmVoice();
                         break;
                     case "LSYS":
