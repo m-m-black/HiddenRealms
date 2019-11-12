@@ -28,8 +28,9 @@ public class LSystem {
         rules = new ArrayList[tokens.length];
         for (int i = 0; i < rules.length; i++) {
             rules[i] = new ArrayList<>();
-            for (int y = 0; y < tokens[i].length(); y++) {
-                rules[i].add(Integer.parseInt(tokens[i].substring(y, y+1)));
+            String[] fragments = tokens[i].split("_");
+            for (String f: fragments) {
+                rules[i].add(Integer.parseInt(f));
             }
         }
     }
@@ -41,7 +42,7 @@ public class LSystem {
             int r = random.nextInt(4) + 1; // Length of fragment
             for (int j = 0; j < r; j++) {
                 int e = random.nextInt(n);
-                stringBuilder.append(e);
+                stringBuilder.append(e + "_");
             }
             if (i < n-1) {
                 stringBuilder.append("/");
@@ -174,25 +175,7 @@ public class LSystem {
 
     // -- Set MIDI note values for each alphabet element --
     private int mapElemToNote(int n) {
-        int returnValue = 0;
-        if (n == 0) {
-            returnValue = noteStart;
-        } else if (n == 1) {
-            returnValue = noteStart + 1;
-        } else if (n == 2) {
-            returnValue = noteStart + 2;
-        } else if (n == 3) {
-            returnValue = noteStart + 3;
-        } else if (n == 4) {
-            returnValue = noteStart + 4;
-        } else if (n == 5) {
-            returnValue = noteStart + 5;
-        } else if (n == 6) {
-            returnValue = noteStart + 6;
-        } else if (n == 7) {
-            returnValue = noteStart + 7;
-        }
-        return returnValue;
+        return noteStart + n;
     }
 
     public void setNoteStart(int noteStart) {
