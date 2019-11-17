@@ -1,6 +1,7 @@
 package generative;
 
 import datastructures.Voice;
+import events.ChordEvent;
 import events.Event;
 import events.RhythmEvent;
 
@@ -177,6 +178,21 @@ public class LSystem {
             // Reset counter if it equals the density setting
             if (counters.get(elem) == density) {
                 counters.replace(elem, 0);
+            }
+        }
+        return voice;
+    }
+
+    public Voice getSystemAsChordVoice() {
+        Voice voice = new Voice(system.size());
+        Event e = new Event(60);
+        e.setMidiChannel(1);
+        for (int i = 0; i < system.size(); i++) {
+            int elem = system.get(i);
+            if (elem == 0) {
+                voice.addEvent(e, i);
+            } else {
+                voice.addEvent(null, i);
             }
         }
         return voice;

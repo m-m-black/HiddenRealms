@@ -37,6 +37,7 @@ public class ControlSystem {
     MarkovMatrix markovMatrix = new MarkovMatrix();
     int noiseOffset = 0;
     Voice rhythmVoice;
+    Voice chordVoice;
 
     /*
         User input variables
@@ -141,8 +142,10 @@ public class ControlSystem {
 
     // Build sequence and add it to the transport
     private void cue() {
+        buildChordVoice();
         sequence = new Sequence();
         sequence.addVoice(rhythmVoice);
+        sequence.addVoice(chordVoice);
         transport.setSequence(sequence);
     }
 
@@ -155,6 +158,11 @@ public class ControlSystem {
     // Build rhythm voice based on current lSystem values
     private void buildRhythmVoice() {
         rhythmVoice = lSystem.getSystemAtCurrentValues();
+    }
+
+    // Build chord voice based on current lSystem
+    private void buildChordVoice() {
+        chordVoice = lSystem.getSystemAsChordVoice();
     }
 
     // Set global and local note start values

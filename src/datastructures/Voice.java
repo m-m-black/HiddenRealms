@@ -56,4 +56,8 @@ public class Voice {
     public Event[] getRow() {
         return row;
     }
+
+    public int getSize() {
+        return row.length;
+    }
 }
