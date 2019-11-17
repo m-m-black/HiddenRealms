@@ -15,7 +15,7 @@ public class LSystem {
     private ArrayList<Integer> system;
     private int noteStart;
     private int density;
-    private int wildcardStart;
+    private int wildcardStart; // -- Is also maximum value in L-System --
     private int wildcardEnd;
     private Random random;
 
@@ -184,15 +184,20 @@ public class LSystem {
     }
 
     public Voice getSystemAsChordVoice() {
+        int theValue = 0;
         Voice voice = new Voice(system.size());
         Event e = new Event(60);
         e.setMidiChannel(1);
         for (int i = 0; i < system.size(); i++) {
             int elem = system.get(i);
-            if (elem == 0) {
+            if (elem == theValue) {
                 voice.addEvent(e, i);
+                theValue++;
             } else {
                 voice.addEvent(null, i);
+            }
+            if (theValue == wildcardStart + 1) {
+                theValue = 0;
             }
         }
         return voice;
