@@ -74,7 +74,9 @@ public class ControlSystem {
                     case "LSYS":
                         lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
                         int n = Integer.parseInt(tokens[1]);
+                        int m = Integer.parseInt(tokens[2]);
                         lSystem.parseRules(lSystem.makeRules(n));
+                        lSystem.setWildcards(n - 1, m - 1);
                         lSystem.printRules();
                         break;
                     case "DENS": // -- Changes the density of the rhythm --

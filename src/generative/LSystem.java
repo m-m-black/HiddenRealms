@@ -14,6 +14,9 @@ public class LSystem {
     private ArrayList<Integer> system;
     private int noteStart;
     private int density;
+    private int wildcardStart;
+    private int wildcardEnd;
+    private Random random;
 
     public LSystem(int noteStart, int density) {
         int axiom = 0; // -- Start with an axiom of 0 for now --
@@ -21,6 +24,12 @@ public class LSystem {
         system.add(axiom);
         this.noteStart = 36 + noteStart;
         this.density = density;
+        random = new Random();
+    }
+
+    public void setWildcards(int n, int m) {
+        wildcardStart = n;
+        wildcardEnd = m;
     }
 
     public void parseRules(String ruleString) {
@@ -175,7 +184,11 @@ public class LSystem {
 
     // -- Set MIDI note values for each alphabet element --
     private int mapElemToNote(int n) {
-        return noteStart + n;
+        if (n == wildcardStart) {
+            return noteStart + (random.nextInt(wildcardEnd - wildcardStart + 1) + wildcardStart);
+        } else {
+            return noteStart + n;
+        }
     }
 
     public void setNoteStart(int noteStart) {
