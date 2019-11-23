@@ -8,7 +8,6 @@ import java.util.HashMap;
 public class ModeMapper {
 
     private static HashMap<Degree, Integer> map;
-    private Mode mode;
 
     public static HashMap<Degree, Integer> getMap(Mode mode) {
         map = null;
