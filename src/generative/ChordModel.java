@@ -1,19 +1,35 @@
 package generative;
 
+import datastructures.Degree;
+import datastructures.Key;
+import datastructures.KeyMapper;
 import datastructures.Mode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class ChordModel {
 
-    private Mode mode; // -- This defines the available notes for the chord model --
+    private Key key;
+    private Mode mode;
+    private HashMap<Degree, Integer> notes; // -- Defines available notes for model --
 
     public ChordModel() {
+        this.key = null;
         this.mode = null;
+        this.notes = null;
     }
 
-    public ChordModel(Mode mode) {
+    public ChordModel(Key key, Mode mode) {
+        this.key = key;
         this.mode = mode;
+        this.notes = defineNotes();
+    }
+
+    private HashMap<Degree, Integer> defineNotes() {
+        // Pass in key and mode to get mapping of degrees to integers
+        HashMap<Degree, Integer> notes = KeyMapper.getMap(key, mode);
+        return notes;
     }
 
     /*
