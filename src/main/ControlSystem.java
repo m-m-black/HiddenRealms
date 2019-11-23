@@ -1,8 +1,6 @@
 package main;
 
-import datastructures.Mode;
-import datastructures.Sequence;
-import datastructures.Voice;
+import datastructures.*;
 import events.Event;
 import events.MarkovEvent;
 import generative.EuclideanRhythm;
@@ -15,6 +13,7 @@ import utility.Utility;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import processing.core.PApplet;
 
@@ -59,6 +58,15 @@ public class ControlSystem {
                 switch (command.toUpperCase()) {
                     case "TEMPO":
                         transport.setTempo(Integer.parseInt(tokens[1]));
+                        break;
+                    case "CHORD":
+                        for (Map.Entry e: ModeMapper.getMap(Mode.IONIAN).entrySet()) {
+                            System.out.println(e.getKey() + ": " + e.getValue());
+                        }
+                        System.out.println();
+                        for (Map.Entry e: KeyMapper.getMap(Key.B, ModeMapper.getMap(Mode.IONIAN)).entrySet()) {
+                            System.out.println(e.getKey() + ": " + e.getValue());
+                        }
                         break;
                     case "NOISE":
                         // Set density to quantised noise value

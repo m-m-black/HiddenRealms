@@ -1,9 +1,6 @@
 package generative;
 
-import datastructures.Degree;
-import datastructures.Key;
-import datastructures.KeyMapper;
-import datastructures.Mode;
+import datastructures.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +23,10 @@ public abstract class ChordModel {
         this.notes = defineNotes();
     }
 
+    // This will determine the MIDI note values of the scale degrees for the model
     private HashMap<Degree, Integer> defineNotes() {
         // Pass in key and mode to get mapping of degrees to integers
-        HashMap<Degree, Integer> notes = KeyMapper.getMap(key, mode);
+        HashMap<Degree, Integer> notes = KeyMapper.getMap(key, ModeMapper.getMap(mode));
         return notes;
     }
 
