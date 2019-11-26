@@ -35,7 +35,20 @@ public abstract class ChordModel {
      */
     public abstract ArrayList<Integer> nextChord();
 
+    public void setKey(Key key) {
+        this.key = key;
+    }
+
     public void setMode(Mode mode) {
         this.mode = mode;
+    }
+
+    public void setNotes() throws Exception {
+        if (key == null || mode == null) {
+            // Throw an exception
+            throw new Exception();
+        } else {
+            defineNotes();
+        }
     }
 }
