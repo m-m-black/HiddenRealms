@@ -1,5 +1,7 @@
 package utility;
 
+import datastructures.Degree;
+
 import java.util.Random;
 
 public class Utility {
@@ -54,5 +56,24 @@ public class Utility {
             value = 4;
         }
         return value;
+    }
+
+    /*
+        Find the index of an element in an array of Degrees
+     */
+    public static int findIndex(Degree[] arr, Degree d) {
+        if (arr == null) {
+            return -1;
+        }
+        int len = arr.length;
+        int i = 0;
+        while (i < len) {
+            if (arr[i] == d) {
+                return i;
+            } else {
+                i++;
+            }
+        }
+        return -1;
     }
 }
