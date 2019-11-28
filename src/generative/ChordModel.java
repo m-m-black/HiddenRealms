@@ -9,7 +9,7 @@ public abstract class ChordModel {
 
     private Key key;
     private Mode mode;
-    private HashMap<Degree, Integer> notes; // -- Defines available notes for model --
+    protected HashMap<Degree, Integer> notes; // -- Defines available notes for model --
 
     public ChordModel() {
         this.key = null;
