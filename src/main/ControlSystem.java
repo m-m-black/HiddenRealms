@@ -6,6 +6,7 @@ import events.MarkovEvent;
 import generative.EuclideanRhythm;
 import generative.LSystem;
 import generative.MarkovMatrix;
+import generative.NGapsChordModel;
 import transport.MIDIHandler;
 import transport.Transport;
 import utility.Utility;
@@ -13,6 +14,7 @@ import utility.Utility;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Map;
 
 import processing.core.PApplet;
@@ -60,13 +62,11 @@ public class ControlSystem {
                         transport.setTempo(Integer.parseInt(tokens[1]));
                         break;
                     case "CHORD":
-                        for (Map.Entry e: ModeMapper.getMap(Mode.IONIAN).entrySet()) {
-                            System.out.println(e.getKey() + ": " + e.getValue());
-                        }
-                        System.out.println();
-                        for (Map.Entry e: KeyMapper.getMap(Key.B, ModeMapper.getMap(Mode.IONIAN)).entrySet()) {
-                            System.out.println(e.getKey() + ": " + e.getValue());
-                        }
+                        ArrayList<Integer> gaps = new ArrayList<>();
+                        gaps.add(1);
+                        gaps.add(3);
+                        NGapsChordModel nGapsChordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
+                        nGapsChordModel.printChords();
                         break;
                     case "NOISE":
                         // Set density to quantised noise value
