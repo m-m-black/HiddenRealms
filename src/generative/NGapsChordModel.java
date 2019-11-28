@@ -3,6 +3,7 @@ package generative;
 import datastructures.Degree;
 import datastructures.Key;
 import datastructures.Mode;
+import utility.Utility;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class NGapsChordModel extends ChordModel {
     private int[][] chords; // -- The chords as lists of integers --
     private final Degree[] degrees = {Degree.I, Degree.II, Degree.III, Degree.IV,
         Degree.V, Degree.VI, Degree.VII};
+    private MarkovMatrix markovMatrix;
 
 
     /*
@@ -46,8 +48,12 @@ public class NGapsChordModel extends ChordModel {
                 }
             }
         }
+        System.out.println("Chord set initialised");
     }
 
+    /*
+        For debugging
+     */
     public void printChords() {
         for (int i = 0; i < chords.length; i++) {
             for (int y = 0; y < numNotes; y++) {
@@ -58,11 +64,15 @@ public class NGapsChordModel extends ChordModel {
     }
 
     private void makeChain() {
-
+        markovMatrix = new MarkovMatrix();
+        markovMatrix.initMatrix();
+        System.out.println("Markov chain initialised");
     }
 
     @Override
-    public ArrayList<Integer> nextChord() {
-        return null;
+    public int[] nextChord() {
+        Degree degree = markovMatrix.getNextNote();
+        int index = Utility.findIndex(degrees, degree);
+        return chords[index];
     }
 }

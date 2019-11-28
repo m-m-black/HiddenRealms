@@ -66,7 +66,6 @@ public class ControlSystem {
                         gaps.add(1);
                         gaps.add(3);
                         NGapsChordModel nGapsChordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
-                        nGapsChordModel.printChords();
                         break;
                     case "NOISE":
                         // Set density to quantised noise value

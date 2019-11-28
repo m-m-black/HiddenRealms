@@ -33,7 +33,7 @@ public abstract class ChordModel {
     /*
         Returns a list of integers representing MIDI notes
      */
-    public abstract ArrayList<Integer> nextChord();
+    public abstract int[] nextChord();
 
     public void setKey(Key key) {
         this.key = key;
