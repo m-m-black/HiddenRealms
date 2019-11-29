@@ -13,7 +13,7 @@ public class NGapsChordModel extends ChordModel {
     // TODO Need to decide how gaps are specified, either as gaps between
     // TODO each note, or as gaps above the root note
     // TODO Current makeChords() algorithm uses gaps above root note
-    private ArrayList<Integer> gaps; // -- Degree gaps in chords --
+    private int[] gaps; // -- Degree gaps in chords --
     private int[][] chords; // -- The chords as lists of integers --
     private final Degree[] degrees = {Degree.I, Degree.II, Degree.III, Degree.IV,
         Degree.V, Degree.VI, Degree.VII};
@@ -24,7 +24,7 @@ public class NGapsChordModel extends ChordModel {
         Number of gaps specified must be equal to
         number of notes minus 1
      */
-    public NGapsChordModel(Key key, Mode mode, int numNotes, ArrayList<Integer> gaps) {
+    public NGapsChordModel(Key key, Mode mode, int numNotes, int[] gaps) {
         super(key, mode);
         this.numNotes = numNotes;
         this.gaps = gaps;
@@ -43,7 +43,7 @@ public class NGapsChordModel extends ChordModel {
                 if (y == 0) {
                     chords[i][y] = notes.get(degrees[i]);
                 } else {
-                    int index = (i + gaps.get(y - 1)) % degrees.length;
+                    int index = (i + gaps[y - 1]) % degrees.length;
                     chords[i][y] = notes.get(degrees[index]);
                 }
             }

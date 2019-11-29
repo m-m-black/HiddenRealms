@@ -3,10 +3,7 @@ package main;
 import datastructures.*;
 import events.Event;
 import events.MarkovEvent;
-import generative.EuclideanRhythm;
-import generative.LSystem;
-import generative.MarkovMatrix;
-import generative.NGapsChordModel;
+import generative.*;
 import transport.MIDIHandler;
 import transport.Transport;
 import utility.Utility;
@@ -39,6 +36,8 @@ public class ControlSystem {
     int noiseOffset = 0;
     Voice rhythmVoice;
     Voice chordVoice;
+    int[] gaps = {1, 2};
+    ChordModel chordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
 
     /*
         User input variables
@@ -62,10 +61,10 @@ public class ControlSystem {
                         transport.setTempo(Integer.parseInt(tokens[1]));
                         break;
                     case "CHORD":
-                        ArrayList<Integer> gaps = new ArrayList<>();
-                        gaps.add(1);
-                        gaps.add(3);
-                        NGapsChordModel nGapsChordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
+                        //ArrayList<Integer> gaps = new ArrayList<>();
+                        //gaps.add(1);
+                        //gaps.add(3);
+                        //NGapsChordModel nGapsChordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
                         break;
                     case "NOISE":
                         // Set density to quantised noise value
@@ -149,7 +148,7 @@ public class ControlSystem {
 
     // Build sequence and add it to the transport
     private void cue() {
-        buildChordVoice();
+        buildChordVoice(chordModel);
         sequence = new Sequence();
         sequence.addVoice(rhythmVoice);
         sequence.addVoice(chordVoice);
@@ -168,8 +167,8 @@ public class ControlSystem {
     }
 
     // Build chord voice based on current lSystem
-    private void buildChordVoice() {
-        chordVoice = lSystem.getSystemAsChordVoice();
+    private void buildChordVoice(ChordModel chordModel) {
+        chordVoice = lSystem.getSystemAsChordVoice(chordModel);
     }
 
     // Set global and local note start values

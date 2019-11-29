@@ -1,12 +1,18 @@
 package events;
 
-import java.util.ArrayList;
+import generative.ChordModel;
 
 public class ChordEvent extends Event {
 
-    private ArrayList<Integer> midiNotes;
+    private int[] midiNotes;
+    private ChordModel model;
 
-    public ChordEvent(ArrayList<Integer> midiNotes) {
-        this.midiNotes = midiNotes;
+    public ChordEvent(ChordModel model) {
+        this.model = model;
+    }
+
+    public int[] triggerChord() {
+        midiNotes = model.nextChord();
+        return midiNotes;
     }
 }

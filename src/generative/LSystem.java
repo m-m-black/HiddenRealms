@@ -183,10 +183,10 @@ public class LSystem {
         return voice;
     }
 
-    public Voice getSystemAsChordVoice() {
+    public Voice getSystemAsChordVoice(ChordModel chordModel) {
         int theValue = 0;
         Voice voice = new Voice(system.size());
-        Event e = new Event(60);
+        ChordEvent e = new ChordEvent(chordModel);
         e.setMidiChannel(1);
         for (int i = 0; i < system.size(); i++) {
             int elem = system.get(i);
