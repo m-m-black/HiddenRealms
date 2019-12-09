@@ -4,8 +4,8 @@ import generative.ChordModel;
 
 public class ChordEvent extends Event {
 
-    private int[] midiNotes;
-    private ChordModel model;
+    protected int[] midiNotes;
+    protected ChordModel model;
 
     public ChordEvent(ChordModel model) {
         this.model = model;

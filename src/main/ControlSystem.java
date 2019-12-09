@@ -3,6 +3,7 @@ package main;
 import datastructures.*;
 import events.Event;
 import events.MarkovEvent;
+import events.ProbEvent;
 import generative.*;
 import transport.MIDIHandler;
 import transport.Transport;
@@ -166,9 +167,11 @@ public class ControlSystem {
         rhythmVoice = lSystem.getSystemAtCurrentValues();
     }
 
-    // Build chord voice based on current lSystem
     private void buildChordVoice(ChordModel chordModel) {
-        chordVoice = lSystem.getSystemAsChordVoice(chordModel);
+        // Build chord voice based on current lSystem
+        //chordVoice = lSystem.getSystemAsChordVoice(chordModel);
+        // Build chord voice using Time Interval Probability model
+        chordVoice = buildTIPChordVoice();
     }
 
     // Set global and local note start values
@@ -177,5 +180,19 @@ public class ControlSystem {
         lSysNoteStartOffset += n;
         // Update local note start value
         lSystem.setNoteStart(n);
+    }
+
+    private Voice buildTIPChordVoice() {
+        Voice voice = new Voice(16);
+        for (int i = 0; i < 16; i++) {
+            if (i == 0) {
+                ProbEvent e = new ProbEvent(chordModel);
+                e.setMidiChannel(1);
+                voice.addEvent(e, i);
+            } else {
+                voice.addEvent(null, i);
+            }
+        }
+        return voice;
     }
 }

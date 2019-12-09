@@ -5,6 +5,7 @@ package transport;/*
 
 import events.ChordEvent;
 import events.Event;
+import events.ProbEvent;
 import utility.Utility;
 
 import javax.sound.midi.*;
@@ -40,10 +41,12 @@ public class MIDIHandler {
         if (event instanceof ChordEvent) {
             // Split into individual note events
             int[] notes = ((ChordEvent) event).triggerChord();
-            for (int n: notes) {
-                Event e = new Event(n);
-                e.setMidiChannel(event.getMidiChannel());
-                executor.submit(new MIDINoteThread(device, e, sleepTime));
+            if (notes != null) {
+                for (int n: notes) {
+                    Event e = new Event(n);
+                    e.setMidiChannel(event.getMidiChannel());
+                    executor.submit(new MIDINoteThread(device, e, sleepTime));
+                }
             }
         } else {
             executor.submit(new MIDINoteThread(device, event, sleepTime));
