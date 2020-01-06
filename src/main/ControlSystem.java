@@ -22,37 +22,36 @@ public class ControlSystem {
     /*
         Global transport and handler objects
      */
-    MIDIHandler handler = new MIDIHandler(120);
-    Transport transport = new Transport(handler);
-    Sequence sequence = new Sequence();
-    PApplet pApplet = new PApplet();
+    private MIDIHandler handler = new MIDIHandler(120);
+    private Transport transport = new Transport(handler);
+    private Sequence sequence = new Sequence();
+    private PApplet pApplet = new PApplet();
 
     /*
         Generative algorithm objects
      */
-    int lSysDensity = 1;
-    int lSysNoteStartOffset = 0;
-    LSystem lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
-    MarkovMatrix markovMatrix = new MarkovMatrix();
-    int noiseOffset = 0;
-    Voice rhythmVoice;
-    Voice chordVoice;
-    int[] gaps = {1, 2};
-    ChordModel chordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 3, gaps);
+    private int lSysDensity = 1;
+    private int lSysNoteStartOffset = 0;
+    private LSystem lSystem = new LSystem(lSysNoteStartOffset, lSysDensity);
+    private MarkovMatrix markovMatrix = new MarkovMatrix();
+    private int noiseOffset = 0;
+    private Voice rhythmVoice;
+    private Voice chordVoice;
+    private int[] gaps = {2};
+    private ChordModel chordModel = new NGapsChordModel(Key.C, Mode.DORIAN, 2, gaps);
 
-    /*
-        User input variables
-     */
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String line;
-    boolean quit = false;
-    String[] tokens;
-    String command;
-
-    public void run() {
+    void run() {
         System.out.println("Welcome to the Hidden Realms...");
 
         try {
+            // -- Set up user input variables --
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String line;
+            String[] tokens;
+            String command;
+            boolean quit = false;
+
+            // -- Move to main program loop --
             while (!quit && (line = reader.readLine()) != null) {
                 tokens = line.split(" ");
                 command = tokens[0];
@@ -183,8 +182,8 @@ public class ControlSystem {
     }
 
     private Voice buildTIPChordVoice() {
-        Voice voice = new Voice(16);
-        for (int i = 0; i < 16; i++) {
+        Voice voice = new Voice(4); // -- Voice length determines note subdivision --
+        for (int i = 0; i < voice.getSize(); i++) {
             if (i == 0) {
                 ProbEvent e = new ProbEvent(chordModel);
                 e.setMidiChannel(1);
