@@ -24,6 +24,7 @@ public class MIDINoteThread extends Thread {
          */
         int midiNote = event.trigger();
         int midiChannel = event.getMidiChannel();
+        int velocity = event.getVelocity();
         ShortMessage message = new ShortMessage();
         Receiver receiver = null;
         try {
@@ -32,7 +33,7 @@ public class MIDINoteThread extends Thread {
             e.printStackTrace();
         }
         try { // -- Send a NOTE_ON message --
-            message.setMessage(ShortMessage.NOTE_ON, midiChannel, midiNote, 100);
+            message.setMessage(ShortMessage.NOTE_ON, midiChannel, midiNote, velocity);
             receiver.send(message, -1);
         } catch (InvalidMidiDataException e) {
             e.printStackTrace();

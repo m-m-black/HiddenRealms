@@ -132,6 +132,7 @@ public class LSystem {
             if (counters.get(elem) == 0) {
                 Event e = new RhythmEvent(mapElemToNote(elem));
                 e.setMidiChannel(0);
+                e.setVelocity(random.nextInt(127));
                 voice.addEvent(e, i);
                 counters.replace(elem, 1);
             } else {

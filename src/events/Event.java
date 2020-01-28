@@ -7,6 +7,7 @@ public class Event {
 
     protected int midiNote;
     protected int midiChannel;
+    protected int velocity;
 
     public Event() {
 
@@ -14,6 +15,7 @@ public class Event {
 
     public Event(int midiNote) {
         this.midiNote = midiNote;
+        this.velocity = 100;
     }
 
     public int getMidiChannel() {
@@ -24,10 +26,18 @@ public class Event {
         this.midiChannel = midiChannel;
     }
 
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
+
+    public int getVelocity() {
+        return velocity;
+    }
+
     /*
-            The event receives an external trigger,
-            and performs it's assigned action.
-         */
+                The event receives an external trigger,
+                and performs it's assigned action.
+             */
     public int trigger() {
         return midiNote;
     }
