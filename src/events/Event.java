@@ -15,7 +15,7 @@ public class Event {
 
     public Event(int midiNote) {
         this.midiNote = midiNote;
-        this.velocity = 100;
+        this.velocity = 100; // -- Default velocity of 100 --
     }
 
     public int getMidiChannel() {
